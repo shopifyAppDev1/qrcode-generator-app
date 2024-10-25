@@ -1,0 +1,121 @@
+{% schema %}
+{
+  "name": "Share Modal",
+  "target": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "discount_message",
+      "label": "Discount Message",
+      "default": "Share this product and get a discount!"
+    }
+  ]
+}
+{% endschema %}
+
+
+
+<div id="share-modal" class="share-modal">
+  <div class="share-modal-content">
+    <span class="close-modal">&times;</span> <!-- Close button -->
+    <h2>{{ section.settings.product.title }}</h2> <!-- Product title -->
+    <img src="{{ section.settings.product.featured_image | image_url: 'medium' }}" alt="{{ section.settings.product.title }}" width='600' height='600' class="modal-product-image"> <!-- Product image -->
+    <p>{{ section.settings.discount_message }}</p> <!-- Discount message -->
+    <div class="social-share-buttons">
+      <!-- Social share buttons -->
+      <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ section.settings.product.url }}" class="share-facebook" target="_blank">Share on Facebook</a>
+      <a href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ section.settings.product.url }}&text=Check%20out%20this%20product!" class="share-twitter" target="_blank">Share on Twitter</a>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Modal background */
+.share-modal{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999 !important; 
+}
+
+.share-modal.show {
+  display: flex; /* Flexbox centering */
+}
+
+/* Modal content */
+.share-modal-content {
+  background: #ffffff; /* White background */
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  position: relative; /* Ensure close button stays in place */
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+}
+
+.modal-product-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.social-share-buttons a {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 24px;
+  color: #fff;
+  background: #007bff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+</style>
+
+
+<script>
+      document.addEventListener('DOMContentLoaded', function () {
+      var modal = document.getElementById('share-modal');
+      var closeModal = document.querySelector('.close-modal');
+
+      // Show the modal after 4 seconds
+      setTimeout(function() {
+        modal.classList.add('show-social');
+      }, 1000);
+
+    // Close the modal when the close button is clicked
+    closeModal.onclick = function() {
+      modal.classList.remove('show-social');
+    };
+
+    // Close the modal when clicking outside the modal content
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.classList.remove('show-social');
+      }
+    };
+  });
+</script>
